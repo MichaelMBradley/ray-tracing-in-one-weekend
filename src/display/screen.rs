@@ -2,10 +2,10 @@ use std::fmt::{Display, Formatter};
 use std::fs::File;
 use std::io::Write;
 
+use crate::display::pixel::Pixel;
+
 pub const WIDTH: usize = 2 << 7;
 pub const HEIGHT: usize = 2 << 7;
-
-use crate::display::pixel::Pixel;
 
 pub struct Screen {
     data: [[Pixel; WIDTH]; HEIGHT],
