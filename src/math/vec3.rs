@@ -1,34 +1,33 @@
-use num_traits::Float;
 use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
 };
 
 #[derive(Debug, Copy, Clone)]
-pub struct Vec3<T: Float> {
-    x: T,
-    y: T,
-    z: T,
+pub struct Vec3 {
+    x: f64,
+    y: f64,
+    z: f64,
 }
 
-impl<T: Float> Vec3<T> {
+impl Vec3 {
     /// Creates a new `Vec3` with the given `x`, `y`, and `z` values.
-    pub fn new(x: T, y: T, z: T) -> Self {
+    pub fn new(x: f64, y: f64, z: f64) -> Self {
         Self { x, y, z }
     }
 
     /// Creates a new `vec3` with identical values in each dimension.
-    pub fn same(x: T) -> Self {
+    pub fn same(x: f64) -> Self {
         Self { x, y: x, z: x }
     }
 
     /// Returns the length of the `Vec3` squared.
     /// Useful for comparing relative lengths without incurring the cost of a `sqrt`.
-    pub fn length_squared(&self) -> T {
+    pub fn length_squared(&self) -> f64 {
         self.dot(self)
     }
 
     /// Returns the distance from the origin to the vector.
-    pub fn length(&self) -> T {
+    pub fn length(&self) -> f64 {
         self.length_squared().sqrt()
     }
 
@@ -45,7 +44,7 @@ impl<T: Float> Vec3<T> {
     }
 
     /// The dot product of this and another `Vec3`.
-    pub fn dot(&self, other: &Self) -> T {
+    pub fn dot(&self, other: &Self) -> f64 {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
@@ -60,24 +59,24 @@ impl<T: Float> Vec3<T> {
 
     /// The `x` value of the vector.
     /// Equivalent to `this[0]`.
-    pub fn x(&self) -> T {
+    pub fn x(&self) -> f64 {
         self.x
     }
 
     /// The `y` value of the vector.
     /// Equivalent to `this[1]`.
-    pub fn y(&self) -> T {
+    pub fn y(&self) -> f64 {
         self.y
     }
 
     /// The `z` value of the vector.
     /// Equivalent to `this[2]`.
-    pub fn z(&self) -> T {
+    pub fn z(&self) -> f64 {
         self.z
     }
 }
 
-impl<T: Float> Add<Vec3<T>> for Vec3<T> {
+impl Add<Vec3> for Vec3 {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
@@ -89,7 +88,7 @@ impl<T: Float> Add<Vec3<T>> for Vec3<T> {
     }
 }
 
-impl<T: Float> AddAssign<Vec3<T>> for Vec3<T> {
+impl AddAssign<Vec3> for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
         self.x = self.x + rhs.x;
         self.y = self.y + rhs.y;
@@ -97,7 +96,7 @@ impl<T: Float> AddAssign<Vec3<T>> for Vec3<T> {
     }
 }
 
-impl<T: Float> Neg for Vec3<T> {
+impl Neg for Vec3 {
     type Output = Self;
 
     fn neg(self) -> Self::Output {
@@ -109,7 +108,7 @@ impl<T: Float> Neg for Vec3<T> {
     }
 }
 
-impl<T: Float> Sub<Vec3<T>> for Vec3<T> {
+impl Sub<Vec3> for Vec3 {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
@@ -117,16 +116,16 @@ impl<T: Float> Sub<Vec3<T>> for Vec3<T> {
     }
 }
 
-impl<T: Float> SubAssign<Vec3<T>> for Vec3<T> {
+impl SubAssign<Vec3> for Vec3 {
     fn sub_assign(&mut self, rhs: Self) {
         *self += -rhs
     }
 }
 
-impl<T: Float> Mul<T> for Vec3<T> {
+impl Mul<f64> for Vec3 {
     type Output = Self;
 
-    fn mul(self, rhs: T) -> Self::Output {
+    fn mul(self, rhs: f64) -> Self::Output {
         Self {
             x: self.x * rhs,
             y: self.y * rhs,
@@ -135,18 +134,18 @@ impl<T: Float> Mul<T> for Vec3<T> {
     }
 }
 
-impl<T: Float> MulAssign<T> for Vec3<T> {
-    fn mul_assign(&mut self, rhs: T) {
+impl MulAssign<f64> for Vec3 {
+    fn mul_assign(&mut self, rhs: f64) {
         self.x = self.x * rhs;
         self.y = self.y * rhs;
         self.z = self.z * rhs;
     }
 }
 
-impl<T: Float> Div<T> for Vec3<T> {
+impl Div<f64> for Vec3 {
     type Output = Self;
 
-    fn div(self, rhs: T) -> Self::Output {
+    fn div(self, rhs: f64) -> Self::Output {
         Self {
             x: self.x / rhs,
             y: self.y / rhs,
@@ -155,16 +154,16 @@ impl<T: Float> Div<T> for Vec3<T> {
     }
 }
 
-impl<T: Float> DivAssign<T> for Vec3<T> {
-    fn div_assign(&mut self, rhs: T) {
+impl DivAssign<f64> for Vec3 {
+    fn div_assign(&mut self, rhs: f64) {
         self.x = self.x / rhs;
         self.y = self.y / rhs;
         self.z = self.z / rhs;
     }
 }
 
-impl<T: Float> Index<i8> for Vec3<T> {
-    type Output = T;
+impl Index<i8> for Vec3 {
+    type Output = f64;
 
     fn index(&self, index: i8) -> &Self::Output {
         match index {
@@ -176,7 +175,7 @@ impl<T: Float> Index<i8> for Vec3<T> {
     }
 }
 
-impl<T: Float> IndexMut<i8> for Vec3<T> {
+impl IndexMut<i8> for Vec3 {
     fn index_mut(&mut self, index: i8) -> &mut Self::Output {
         match index {
             0 | -3 => &mut self.x,

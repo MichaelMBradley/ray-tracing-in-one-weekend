@@ -13,7 +13,7 @@ impl Pixel {
         Self { r, g, b }
     }
 
-    pub fn from_vec3(vec: &Vec3<f64>) -> Self {
+    pub fn from_vec3(vec: &Vec3) -> Self {
         let n = vec.get_normalised() * 255.999f64;
         Self::new(n.x() as u8, n.y() as u8, n.z() as u8)
     }
