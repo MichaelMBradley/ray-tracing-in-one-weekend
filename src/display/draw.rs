@@ -1,0 +1,32 @@
+use crate::display::screen::{Screen, ASPECT_RATIO, HEIGHT, WIDTH};
+use crate::math::ray::Ray;
+use crate::math::vec3::Vec3;
+use crate::raytracing::colour::ray_colour;
+
+pub fn draw() -> Screen {
+    let viewport_height = 2.0;
+    let viewport_width = viewport_height * ASPECT_RATIO;
+    let focal_length = 1.0;
+
+    let origin = Vec3::same(0.0);
+    let horizontal = Vec3::new(viewport_width, 0f64, 0f64);
+    let vertical = Vec3::new(0f64, viewport_height, 0f64);
+    let lower_left_corner =
+        origin - horizontal / 2.0 - vertical / 2.0 - Vec3::new(0f64, 0f64, focal_length);
+
+    let mut screen = Screen::new();
+
+    for i in 0..WIDTH {
+        let u = (i as f64) / (WIDTH - 1) as f64;
+        for j in HEIGHT - 1..0 {
+            let v = (j as f64) / (HEIGHT - 1) as f64;
+            let r = Ray::new(
+                origin,
+                lower_left_corner + u * horizontal + v * vertical - origin,
+            );
+            screen[i][j] = ray_colour(&r);
+        }
+    }
+
+    screen
+}

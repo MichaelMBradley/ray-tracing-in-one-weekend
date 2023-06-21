@@ -1,2 +1,2 @@
-pub mod pixel;
+pub mod draw;
 pub mod screen;

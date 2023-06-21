@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
 };
@@ -18,6 +19,15 @@ impl Vec3 {
     /// Creates a new `vec3` with identical values in each dimension.
     pub fn same(x: f64) -> Self {
         Self { x, y: x, z: x }
+    }
+
+    /// Returns [0, 0, 0].
+    pub fn origin() -> Self {
+        Self {
+            x: 0f64,
+            y: 0f64,
+            z: 0f64,
+        }
     }
 
     /// Returns the length of the `Vec3` squared.
@@ -191,5 +201,11 @@ impl IndexMut<i8> for Vec3 {
             2 | -1 => &mut self.z,
             _ => panic!(),
         }
+    }
+}
+
+impl Display for Vec3 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:>3} {:>3} {:>3}", self.x, self.y, self.z)
     }
 }
