@@ -33,7 +33,7 @@ impl Screen {
 impl Display for Screen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut data = format!("P3\n{WIDTH} {HEIGHT}\n255\n");
-        for j in 0..HEIGHT {
+        for j in (0..HEIGHT).rev() {
             for i in 0..WIDTH {
                 data.push_str(&format!("{}\n", Pixel::from(self.data[i * HEIGHT + j])))
             }
