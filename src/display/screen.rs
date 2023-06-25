@@ -1,4 +1,5 @@
-use crate::math::vec3::Vec3;
+use crate::display::pixel::Pixel;
+use crate::math::vec3::{Vec3, ORIGIN};
 use std::fmt::{Display, Formatter};
 use std::fs::File;
 use std::io::Write;
@@ -16,7 +17,7 @@ impl Screen {
     pub fn new() -> Screen {
         let mut data = Vec::with_capacity(WIDTH * HEIGHT);
         for _ in 0..WIDTH * HEIGHT {
-            data.push(Vec3::origin());
+            data.push(ORIGIN);
         }
         Screen { data }
     }
@@ -32,8 +33,10 @@ impl Screen {
 impl Display for Screen {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut data = format!("P3\n{WIDTH} {HEIGHT}\n255\n");
-        for pixel in self.data.as_slice() {
-            data.push_str(&format!("{}\n", *pixel))
+        for j in 0..HEIGHT {
+            for i in 0..WIDTH {
+                data.push_str(&format!("{}\n", Pixel::from(self.data[i * HEIGHT + j])))
+            }
         }
         write!(f, "{data}")
     }
@@ -44,10 +47,10 @@ impl ops::Index<i32> for Screen {
 
     fn index(&self, index: i32) -> &Self::Output {
         if index >= 0 {
-            &self.data[(index as usize * WIDTH)..((index as usize + 1) * WIDTH)]
+            &self.data[(index as usize * HEIGHT)..((index as usize + 1) * HEIGHT)]
         } else {
-            &self.data[((index + WIDTH as i32) as usize * WIDTH)
-                ..(((index + WIDTH as i32) as usize + 1) * WIDTH)]
+            &self.data[((index + HEIGHT as i32) as usize * HEIGHT)
+                ..(((index + HEIGHT as i32) as usize + 1) * HEIGHT)]
         }
     }
 }
@@ -55,10 +58,10 @@ impl ops::Index<i32> for Screen {
 impl ops::IndexMut<i32> for Screen {
     fn index_mut(&mut self, index: i32) -> &mut Self::Output {
         if index >= 0 {
-            &mut self.data[(index as usize * WIDTH)..((index as usize + 1) * WIDTH)]
+            &mut self.data[(index as usize * HEIGHT)..((index as usize + 1) * HEIGHT)]
         } else {
-            &mut self.data[((index + WIDTH as i32) as usize * WIDTH)
-                ..(((index + WIDTH as i32) as usize + 1) * WIDTH)]
+            &mut self.data[((index + HEIGHT as i32) as usize * HEIGHT)
+                ..(((index + HEIGHT as i32) as usize + 1) * HEIGHT)]
         }
     }
 }
@@ -67,12 +70,12 @@ impl ops::Index<usize> for Screen {
     type Output = [Vec3];
 
     fn index(&self, index: usize) -> &Self::Output {
-        &self.data[(index * WIDTH)..((index + 1) * WIDTH)]
+        &self.data[(index * HEIGHT)..((index + 1) * HEIGHT)]
     }
 }
 
 impl ops::IndexMut<usize> for Screen {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
-        &mut self.data[(index * WIDTH)..((index + 1) * WIDTH)]
+        &mut self.data[(index * HEIGHT)..((index + 1) * HEIGHT)]
     }
 }

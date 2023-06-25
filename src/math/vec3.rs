@@ -1,4 +1,3 @@
-use std::fmt::{Display, Formatter};
 use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
 };
@@ -16,18 +15,8 @@ impl Vec3 {
         Self { x, y, z }
     }
 
-    /// Creates a new `vec3` with identical values in each dimension.
-    pub fn same(x: f64) -> Self {
-        Self { x, y: x, z: x }
-    }
-
-    /// Returns [0, 0, 0].
-    pub fn origin() -> Self {
-        Self {
-            x: 0f64,
-            y: 0f64,
-            z: 0f64,
-        }
+    pub fn new_diag(g: f64) -> Self {
+        Self { x: g, y: g, z: g }
     }
 
     /// Returns the length of the `Vec3` squared.
@@ -41,16 +30,9 @@ impl Vec3 {
         self.length_squared().sqrt()
     }
 
-    /// Creates a new, normalised `Vec3`.
-    pub fn get_normalised(&self) -> Self {
-        *self / self.length()
-    }
-
     /// Normalises this `Vec3` in place.
-    /// Returns itself.
-    pub fn normalise(&mut self) -> &mut Self {
-        *self /= self.length();
-        self
+    pub fn into_normalised(self) -> Self {
+        self / self.length()
     }
 
     /// The dot product of this and another `Vec3`.
@@ -204,8 +186,8 @@ impl IndexMut<i8> for Vec3 {
     }
 }
 
-impl Display for Vec3 {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:>3} {:>3} {:>3}", self.x, self.y, self.z)
-    }
-}
+pub const ORIGIN: Vec3 = Vec3 {
+    x: 0f64,
+    y: 0f64,
+    z: 0f64,
+};
