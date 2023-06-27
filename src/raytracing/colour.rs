@@ -1,11 +1,17 @@
 use crate::math::ray::Ray;
-use crate::math::vec3::Vec3;
+use crate::math::vec3::{Vec3, ORIGIN};
 use crate::raytracing::hittable::Hittable;
 
-pub fn ray_colour<H: Hittable>(ray: &Ray, hittable: &H) -> Vec3 {
-    if let Some(t) = hittable.hit(ray, 0.0..f64::INFINITY) {
-        return 0.5 * (t.normal() + Vec3::new_diag(1.0));
+pub fn ray_colour<H: Hittable>(ray: &Ray, hittable: &H, depth: u8) -> Vec3 {
+    if depth <= 0 {
+        return ORIGIN;
     }
+
+    if let Some(rec) = hittable.hit(ray, 0.0..f64::INFINITY) {
+        let target = rec.p() + rec.normal() + Vec3::random_unit_vector();
+        return 0.5 * ray_colour(&Ray::new(rec.p(), target - rec.p()), hittable, depth - 1);
+    }
+
     let direction = ray.direction().into_normalised();
     let t = 0.5 * (direction.y() + 1.0);
     (1.0 - t) * Vec3::new_diag(1.0) + t * Vec3::new(0.5, 0.7, 1.0)

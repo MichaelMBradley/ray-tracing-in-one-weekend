@@ -7,7 +7,7 @@ pub struct HitRecord {
     p: Vec3,
     normal: Vec3,
     t: f64,
-    front_face: bool,
+    // front_face: bool,
 }
 
 impl HitRecord {
@@ -17,16 +17,20 @@ impl HitRecord {
             p: intersect,
             normal: normal * if front_face { -1.0 } else { 1.0 },
             t,
-            front_face,
+            // front_face,
         }
     }
 
-    pub fn t(self) -> f64 {
-        self.t
+    pub fn p(self) -> Vec3 {
+        self.p
     }
 
     pub fn normal(self) -> Vec3 {
         self.normal
+    }
+
+    pub fn t(self) -> f64 {
+        self.t
     }
 }
 

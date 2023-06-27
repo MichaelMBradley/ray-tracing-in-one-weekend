@@ -6,6 +6,7 @@ use crate::raytracing::hittable_list::HittableList;
 use crate::raytracing::sphere::Sphere;
 
 const SQRT_SAMPLES: u8 = 10;
+const MAX_DEPTH: u8 = 20;
 
 pub fn draw() -> Screen {
     let mut hittable_list = HittableList::new();
@@ -22,12 +23,17 @@ pub fn draw() -> Screen {
                 let u = (i as f64 + (x as f64 / SQRT_SAMPLES as f64)) / (WIDTH as f64 - 1.0);
                 for y in 0..SQRT_SAMPLES {
                     let v = (j as f64 + (y as f64 / SQRT_SAMPLES as f64)) / (HEIGHT as f64 - 1.0);
-                    pixel += ray_colour(&camera.get_ray(u, v), &hittable_list);
+                    pixel += ray_colour(&camera.get_ray(u, v), &hittable_list, MAX_DEPTH);
                 }
             }
             screen[i][j] = pixel / SQRT_SAMPLES.pow(2) as f64;
+            print!(
+                "\r{}%",
+                (100.0 * (i * HEIGHT + j) as f64 / (WIDTH * HEIGHT) as f64) as u8
+            );
         }
     }
 
+    println!();
     screen
 }

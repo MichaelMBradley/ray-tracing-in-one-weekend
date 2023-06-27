@@ -1,5 +1,5 @@
 use std::ops::{
-    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Sub, SubAssign,
+    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Range, Sub, SubAssign,
 };
 
 #[derive(Debug, Copy, Clone)]
@@ -15,8 +15,29 @@ impl Vec3 {
         Self { x, y, z }
     }
 
+    /// Creates a new `Vec3` with equivalent `x`, `y`, and `z`.
     pub fn new_diag(g: f64) -> Self {
         Self { x: g, y: g, z: g }
+    }
+
+    /// Generates a `Vec3` with all attributes within the range specified.
+    pub fn random(range: Range<f64>) -> Self {
+        let range_diff = range.end - range.start;
+        Self {
+            x: rand::random::<f64>() * range_diff + range.start,
+            y: rand::random::<f64>() * range_diff + range.start,
+            z: rand::random::<f64>() * range_diff + range.start,
+        }
+    }
+
+    /// Generates a random `Vec3` with a length of `1`.
+    pub fn random_unit_vector() -> Self {
+        loop {
+            let p = Self::random(-1.0..1.0);
+            if p.length_squared() < 1.0 {
+                return p.into_normalised();
+            }
+        }
     }
 
     /// Returns the length of the `Vec3` squared.
