@@ -5,5 +5,5 @@ pub mod raytracing;
 use crate::display::draw::draw;
 
 fn main() {
-    draw().write_file("out/8-2.ppm")
+    draw().write_file("out/8-5.ppm")
 }

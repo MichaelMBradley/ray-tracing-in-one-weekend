@@ -26,7 +26,8 @@ pub fn draw() -> Screen {
                     pixel += ray_colour(&camera.get_ray(u, v), &hittable_list, MAX_DEPTH);
                 }
             }
-            screen[i][j] = pixel / SQRT_SAMPLES.pow(2) as f64;
+            let scaled = pixel / SQRT_SAMPLES.pow(2) as f64;
+            screen[i][j] = Vec3::new(scaled.x().sqrt(), scaled.y().sqrt(), scaled.z().sqrt());
             print!(
                 "\r{}%",
                 (100.0 * (i * HEIGHT + j) as f64 / (WIDTH * HEIGHT) as f64) as u8
@@ -34,6 +35,6 @@ pub fn draw() -> Screen {
         }
     }
 
-    println!();
+    print!("\r");
     screen
 }

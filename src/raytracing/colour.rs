@@ -7,7 +7,7 @@ pub fn ray_colour<H: Hittable>(ray: &Ray, hittable: &H, depth: u8) -> Vec3 {
         return ORIGIN;
     }
 
-    if let Some(rec) = hittable.hit(ray, 0.0..f64::INFINITY) {
+    if let Some(rec) = hittable.hit(ray, 0.001..f64::INFINITY) {
         let target = rec.p() + rec.normal() + Vec3::random_unit_vector();
         return 0.5 * ray_colour(&Ray::new(rec.p(), target - rec.p()), hittable, depth - 1);
     }
