@@ -3,7 +3,7 @@ use crate::math::vec3::Vec3;
 use crate::raytracing::hittable::{HitRecord, Hittable};
 use std::ops::Range;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug)]
 pub struct Sphere {
     center: Vec3,
     radius: f64,
@@ -17,7 +17,7 @@ impl Sphere {
 
 impl Hittable for Sphere {
     fn hit(self: &Self, ray: &Ray, accept_t: Range<f64>) -> Option<HitRecord> {
-        let oc = ray.origin() - self.center;
+        let oc = ray.origin() - &self.center;
         let a = ray.direction().length_squared();
         let half_b = oc.dot(&ray.direction());
         let c = oc.length_squared() - self.radius.powi(2);
@@ -40,7 +40,7 @@ impl Hittable for Sphere {
         let intersect = ray.at(root);
         Some(HitRecord::new(
             intersect,
-            (intersect - self.center) / self.radius,
+            (&intersect - &self.center) / self.radius,
             root,
             ray,
         ))

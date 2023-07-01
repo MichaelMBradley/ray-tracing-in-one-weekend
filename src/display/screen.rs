@@ -35,7 +35,7 @@ impl Display for Screen {
         let mut data = format!("P3\n{WIDTH} {HEIGHT}\n255\n");
         for j in (0..HEIGHT).rev() {
             for i in 0..WIDTH {
-                data.push_str(&format!("{}\n", Pixel::from(self.data[i * HEIGHT + j])))
+                data.push_str(&format!("{}\n", Pixel::from(&self.data[i * HEIGHT + j])))
             }
         }
         write!(f, "{data}")

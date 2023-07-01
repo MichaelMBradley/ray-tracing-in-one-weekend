@@ -2,7 +2,7 @@ use crate::math::ray::Ray;
 use crate::math::vec3::Vec3;
 use std::ops::Range;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug)]
 pub struct HitRecord {
     p: Vec3,
     normal: Vec3,
@@ -10,7 +10,7 @@ pub struct HitRecord {
     // front_face: bool,
 }
 
-impl HitRecord {
+impl<'a> HitRecord {
     pub fn new(intersect: Vec3, normal: Vec3, t: f64, ray: &Ray) -> Self {
         let front_face = ray.direction().dot(&normal) > 0.0;
         Self {
@@ -21,12 +21,12 @@ impl HitRecord {
         }
     }
 
-    pub fn p(self) -> Vec3 {
-        self.p
+    pub fn p(self) -> &'a Vec3 {
+        &self.p
     }
 
-    pub fn normal(self) -> Vec3 {
-        self.normal
+    pub fn normal(self) -> &'a Vec3 {
+        &self.normal
     }
 
     pub fn t(self) -> f64 {
