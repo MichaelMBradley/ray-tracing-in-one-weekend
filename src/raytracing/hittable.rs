@@ -10,7 +10,7 @@ pub struct HitRecord {
     // front_face: bool,
 }
 
-impl<'a> HitRecord {
+impl HitRecord {
     pub fn new(intersect: Vec3, normal: Vec3, t: f64, ray: &Ray) -> Self {
         let front_face = ray.direction().dot(&normal) > 0.0;
         Self {
@@ -21,15 +21,15 @@ impl<'a> HitRecord {
         }
     }
 
-    pub fn p(self) -> &'a Vec3 {
+    pub fn p(&self) -> &Vec3 {
         &self.p
     }
 
-    pub fn normal(self) -> &'a Vec3 {
+    pub fn normal(&self) -> &Vec3 {
         &self.normal
     }
 
-    pub fn t(self) -> f64 {
+    pub fn t(&self) -> f64 {
         self.t
     }
 }

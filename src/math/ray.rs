@@ -20,10 +20,6 @@ impl Ray {
     }
 
     pub fn at(&self, t: f64) -> Vec3 {
-        Vec3::new(
-            self.orig.x() + t * self.dir.x(),
-            self.orig.y() + t * self.dir.y(),
-            self.orig.z() + t * self.dir.z(),
-        )
+        self.orig + t * self.dir
     }
 }
