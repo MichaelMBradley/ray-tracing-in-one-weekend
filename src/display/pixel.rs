@@ -20,8 +20,8 @@ impl Pixel {
 
 const SCALING: f64 = 256.0 - f64::EPSILON;
 
-impl From<&Vec3> for Pixel {
-    fn from(vec: &Vec3) -> Self {
+impl From<Vec3> for Pixel {
+    fn from(vec: Vec3) -> Self {
         Self {
             r: (vec.x() * SCALING) as u8,
             g: (vec.y() * SCALING) as u8,
@@ -30,7 +30,7 @@ impl From<&Vec3> for Pixel {
     }
 }
 
-impl Into<Vec3> for &Pixel {
+impl Into<Vec3> for Pixel {
     fn into(self: Self) -> Vec3 {
         Vec3::new(
             self.r as f64 / SCALING,

@@ -8,8 +8,8 @@ pub fn ray_colour<H: Hittable>(ray: &Ray, hittable: &H, depth: u8) -> Vec3 {
     }
 
     if let Some(rec) = hittable.hit(ray, 0.001..f64::INFINITY) {
-        let target = rec.p() + rec.normal() + Vec3::random_unit_vector();
-        return 0.5 * ray_colour(&Ray::new(*rec.p(), target - rec.p()), hittable, depth - 1);
+        let target = rec.normal() + Vec3::random_unit_vector();
+        return 0.5 * ray_colour(&Ray::new(rec.p().clone(), target), hittable, depth - 1);
     }
 
     let direction = ray.direction().into_normalised();

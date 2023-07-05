@@ -2,7 +2,7 @@ use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Range, Sub, SubAssign,
 };
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy)]
 pub struct Vec3 {
     x: f64,
     y: f64,
@@ -53,7 +53,7 @@ impl Vec3 {
 
     /// Normalises this `Vec3` in place.
     pub fn into_normalised(self) -> Self {
-        &self / self.length()
+        self / self.length()
     }
 
     /// The dot product of this and another `Vec3`.
@@ -295,6 +295,16 @@ impl IndexMut<i8> for Vec3 {
             1 | -2 => &mut self.y,
             2 | -1 => &mut self.z,
             _ => panic!(),
+        }
+    }
+}
+
+impl Clone for Vec3 {
+    fn clone(&self) -> Vec3 {
+        Vec3 {
+            x: self.x,
+            y: self.y,
+            z: self.z,
         }
     }
 }
